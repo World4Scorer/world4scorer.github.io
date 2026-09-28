@@ -127,6 +127,8 @@ button { font: inherit; }
 .hero .sub { font: 500 clamp(1.12rem, 2.4vw, 1.6rem)/1.35 Sora, sans-serif; margin: 18px 0 0; color: var(--hero-sub); max-width: 880px; }
 .authors { margin: 30px 0 0; max-width: 800px; font-size: .98rem; line-height: 1.9; color: var(--hero-ink); display: flex; flex-wrap: wrap; column-gap: 16px; }
 .authors span { white-space: nowrap; }
+.authors a { text-decoration: underline; text-decoration-color: var(--btn-line); text-decoration-thickness: 1px; text-underline-offset: 4px; transition: text-decoration-color .2s; }
+.authors a:hover { text-decoration-color: currentColor; }
 .authors sup, .affils sup, .notes sup { font-size: .68em; color: var(--hero-sup); margin-left: 1px; }
 .affils { margin: 10px 0 0; max-width: 860px; font-size: .84rem; line-height: 1.7; color: var(--hero-muted); display: flex; flex-wrap: wrap; column-gap: 14px; }
 .notes { margin: 8px 0 0; font-size: .8rem; color: var(--hero-muted); }
@@ -138,16 +140,12 @@ button { font: inherit; }
 .btn[aria-disabled="true"] { opacity: .55; cursor: default; }
 .btn[aria-disabled="true"]:hover { transform: none; background: var(--btn-bg); }
 .btn svg { width: 17px; height: 17px; flex: none; }
-.scrollcue { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); width: 24px; height: 38px; border: 1.5px solid var(--btn-line); border-radius: 14px; }
-.scrollcue::after { content: ""; position: absolute; left: 50%; top: 8px; width: 3px; height: 8px; margin-left: -1.5px; border-radius: 2px; background: var(--hero-ink); animation: cue 1.8s ease-in-out infinite; }
-@keyframes cue { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(14px); } }
 @media (max-width: 860px) {
   .hero canvas { opacity: .5; }
   .hero .veil { background: var(--hero-veil-sm); }
   .hero .content { padding: 96px 16px 84px; }
   .authors { font-size: .93rem; column-gap: 12px; }
   .btn { padding: 10px 16px; font-size: .92rem; }
-  .scrollcue { display: none; }
 }
 
 /* ---------- sections ---------- */
@@ -161,14 +159,15 @@ h2 { font-size: clamp(1.65rem, 3.6vw, 2.6rem); line-height: 1.15; margin: 10px 0
 .reveal.d1 { transition-delay: .08s; } .reveal.d2 { transition-delay: .16s; } .reveal.d3 { transition-delay: .24s; }
 @media (max-width: 860px) { section.block { padding-top: 72px; } .wrap { padding: 0 16px; } .card { border-radius: 18px; } .lead { font-size: 1.02rem; } }
 
-/* stats */
-.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: -64px; position: relative; z-index: 2; }
-.stat { padding: 22px 22px 20px; position: relative; overflow: hidden; }
-.stat::before { content: ""; position: absolute; inset: 0; background: radial-gradient(400px 120px at 0% 0%, var(--glow), transparent 70%); pointer-events: none; }
-.stat .k { font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
-.stat .v { font: 700 clamp(1.9rem, 6vw, 2.5rem)/1.1 Sora, sans-serif; margin-top: 8px; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.stat .d { font-size: .88rem; color: var(--muted); margin-top: 6px; line-height: 1.45; }
-@media (max-width: 900px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: -44px; } .stat { padding: 16px; } }
+/* stats: one ruled row of figures */
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line2); border-bottom: 1px solid var(--line); }
+.stat { padding: 30px 24px 28px; }
+.stat:first-child { padding-left: 0; }
+.stat + .stat { border-left: 1px solid var(--line); }
+.stat .v { font: 500 clamp(2.3rem, 4.4vw, 3.3rem)/1 Inter, system-ui, sans-serif; letter-spacing: -.045em; font-variant-numeric: tabular-nums; color: var(--ink); }
+.stat .k { margin-top: 16px; font-weight: 600; font-size: .92rem; line-height: 1.4; color: var(--ink); }
+.stat .d { margin-top: 2px; font-size: .86rem; line-height: 1.5; color: var(--muted); }
+@media (max-width: 900px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .stat, .stat:first-child { padding: 22px 16px 20px; } .stat:nth-child(odd) { padding-left: 0; border-left: 0; } .stat:nth-child(n+3) { border-top: 1px solid var(--line); } }
 
 /* overview */
 .video-frame { margin-top: 28px; padding: 8px; border-radius: 26px; background: linear-gradient(135deg, rgba(74, 168, 255, .35), rgba(139, 123, 255, .35), rgba(255, 95, 162, .3)); }
@@ -322,7 +321,7 @@ footer { margin: 110px 0 40px; text-align: center; color: var(--muted); font-siz
   .reveal, .pt, .hbar { transition: none !important; }
   .reveal { opacity: 1; transform: none; }
   .plot:not(.in) .pt { opacity: 1; transform: none; }
-  .gradtext, .scrollcue::after { animation: none; }
+  .gradtext { animation: none; }
   html { scroll-behavior: auto; }
 }
 </style>
@@ -348,7 +347,7 @@ footer { margin: 110px 0 40px; text-align: center; color: var(--muted); font-siz
     <h1><span class="gradtext">World4Scorer</span></h1>
     <p class="sub">Outcome-Grounded World Modeling for Autonomous Driving</p>
     <p class="authors">
-      <span>Jieyuan Pei<sup>1,2,3*‡</sup></span><span>Meiyi Lu<sup>4*</sup></span><span>Sining Ang<sup>5</sup></span><span>Yubo Zhao<sup>6</sup></span><span>Zhangyi Hu<sup>3</sup></span><span>Mingwei Xu<sup>7</sup></span><span>Haokai Ding<sup>8</sup></span><span>Wei Li<sup>9</sup></span><span>Zihan You<sup>1,10</sup></span><span>Jianwei Zheng<sup>9</sup></span><span>Li Yu<sup>11</sup></span><span>Yifeng Pan<sup>11</sup></span><span>Ji Tao<sup>11</sup></span><span>Rongjunchen Zhang<sup>2</sup></span><span>Yan Wang<sup>1†</sup></span>
+      <span><a href="https://scholar.google.com/citations?user=xAAOO_0AAAAJ">Jieyuan Pei</a><sup>1,2,3*‡</sup></span><span><a href="https://scholar.google.com/citations?user=2icZCggAAAAJ">Meiyi Lu</a><sup>4*</sup></span><span><a href="https://scholar.google.com/citations?user=ZBVnV8cAAAAJ">Sining Ang</a><sup>5</sup></span><span>Yubo Zhao<sup>6</sup></span><span>Zhangyi Hu<sup>3</sup></span><span><a href="https://scholar.google.com/citations?user=jOZPNeQAAAAJ">Mingwei Xu</a><sup>7</sup></span><span><a href="https://scholar.google.com/citations?user=ikir1CUAAAAJ">Haokai Ding</a><sup>8</sup></span><span>Wei Li<sup>9</sup></span><span><a href="https://scholar.google.com/citations?user=LnvFQJUAAAAJ">Zihan You</a><sup>1,10</sup></span><span><a href="https://scholar.google.com/citations?user=X0wntOEAAAAJ">Jianwei Zheng</a><sup>9</sup></span><span>Li Yu<sup>11</sup></span><span><a href="https://scholar.google.com/citations?user=Qh943UAAAAAJ">Yifeng Pan</a><sup>11</sup></span><span>Ji Tao<sup>11</sup></span><span><a href="https://scholar.google.com/citations?user=Ae41dcUAAAAJ">Rongjunchen Zhang</a><sup>2</sup></span><span><a href="https://scholar.google.com/citations?user=QOZnsYYAAAAJ">Yan Wang</a><sup>1†</sup></span>
     </p>
     <p class="affils">
       <span><sup>1</sup>Institute for AI Industry Research (AIR), Tsinghua University</span><span><sup>2</sup>HiThink Research</span><span><sup>3</sup>The Hong Kong University of Science and Technology (Guangzhou)</span><span><sup>4</sup>Zhejiang University</span><span><sup>5</sup>University of Science and Technology of China</span><span><sup>6</sup>SMBU</span><span><sup>7</sup>University of Washington</span><span><sup>8</sup>Mohamed bin Zayed University of Artificial Intelligence</span><span><sup>9</sup>Zhejiang University of Technology</span><span><sup>10</sup>Southeast University</span><span><sup>11</sup>Changan Automobile</span>
@@ -362,15 +361,14 @@ footer { margin: 110px 0 40px; text-align: center; color: var(--muted); font-siz
       <a class="btn" href="#bibtex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/></svg>BibTeX</a>
     </div>
   </div>
-  <div class="scrollcue" aria-hidden="true"></div>
 </header>
 
 <main class="wrap">
   <div class="stats" id="overview">
-    <div class="card stat reveal"><div class="k">NAVSIM-v2</div><div class="v" data-count="93.0" data-dec="1">93.0</div><div class="d">EPDMS on navtest, state of the art</div></div>
-    <div class="card stat reveal d1"><div class="k">NAVSIM-v1</div><div class="v" data-count="94.0" data-dec="1">94.0</div><div class="d">PDMS on navtest, best in the comparison</div></div>
-    <div class="card stat reveal d2"><div class="k">Bench2Drive</div><div class="v" data-count="73.27" data-dec="2">73.27</div><div class="d">Driving Score over 220 closed-loop routes</div></div>
-    <div class="card stat reveal d3"><div class="k">OGBench-Cube</div><div class="v" data-count="4.73" data-dec="2" data-prefix="+">+4.73</div><div class="d">success points over LeWM with the same world model and budget</div></div>
+    <div class="stat reveal"><div class="v">93.0</div><div class="k">NAVSIM-v2</div><div class="d">EPDMS on navtest, state of the art</div></div>
+    <div class="stat reveal d1"><div class="v">94.0</div><div class="k">NAVSIM-v1</div><div class="d">PDMS on navtest, best in the comparison</div></div>
+    <div class="stat reveal d2"><div class="v">73.27</div><div class="k">Bench2Drive</div><div class="d">Driving Score over 220 closed-loop routes</div></div>
+    <div class="stat reveal d3"><div class="v">+4.73</div><div class="k">OGBench-Cube</div><div class="d">success points over LeWM with the same world model and budget</div></div>
   </div>
 
   <section class="block" id="video">
@@ -572,26 +570,18 @@ const CLIPS = [
 
   /* nav */
   const nav = $("#nav");
-  const onScroll = () => { nav.classList.toggle("solid", scrollY > innerHeight * 0.6); if (scrollY < innerHeight * 0.5) $$(".nav .links a").forEach(a => a.classList.remove("on")); };
+  const onScroll = () => { nav.classList.toggle("solid", scrollY > 8); if (scrollY < innerHeight * 0.5) $$(".nav .links a").forEach(a => a.classList.remove("on")); };
   addEventListener("scroll", onScroll, {passive: true}); onScroll();
   const navIO = new IntersectionObserver(es => es.forEach(e => {
     if (e.isIntersecting) $$(".nav .links a").forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + e.target.id));
   }), {rootMargin: "-45% 0px -50% 0px"});
   $$("section.block, #overview").forEach(s => navIO.observe(s));
 
-  /* reveal + count-up */
-  const countUp = el => {
-    if (reduce) return;
-    const to = +el.dataset.count, dec = +el.dataset.dec, pre = el.dataset.prefix || "", t0 = performance.now();
-    const step = now => { const p = Math.min(1, (now - t0) / 1600), e = 1 - Math.pow(1 - p, 4);
-      el.textContent = pre + (to * e).toFixed(dec); if (p < 1) requestAnimationFrame(step); };
-    requestAnimationFrame(step);
-  };
+  /* reveal */
   const onReveal = [];
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
     e.target.classList.add("in"); io.unobserve(e.target);
-    $$("[data-count]", e.target).forEach(countUp);
     onReveal.forEach(f => f(e.target));
   }), {threshold: 0.12});
   $$(".reveal").forEach(el => io.observe(el));
